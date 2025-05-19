@@ -7,8 +7,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 
-// import MenuRoute from './routers/menuRoute'
-// import UserRoute from './routers/userRoute'
+import MovieRoute from './router/movieRoute'
+import UserRoute from './router/userRoute'
 // import OrderRoute from './routers/orderRoute'
 // import ReportRoute from './routers/reportRoute'
 // import VideoRoute from './routers/videoRoute'
@@ -49,11 +49,10 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
-// app.use(`/menu`, MenuRoute)
-// app.use(`/user`, UserRoute)
+app.use(`/movie`, MovieRoute)
+app.use(`/user`, UserRoute)
 // app.use(`/order`, OrderRoute)
 // app.use(`/report`, ReportRoute)
-// app.use(`/video`, VideoRoute)
 
 // Set public folder as static
 app.use(express.static(path.join(__dirname, '..', 'public')));

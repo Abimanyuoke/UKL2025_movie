@@ -6,8 +6,7 @@ const addDataSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(3).alphanum().required(),
-    role: Joi.string().valid('MANAGER','CASHIER').uppercase().required(),
-    profile_picture: Joi.allow().optional(),
+    role: Joi.string().valid('ADMIN','CASHIER').uppercase().required(),
     user: Joi.optional()
 })
 
@@ -16,8 +15,7 @@ const editDataSchema = Joi.object({
     name: Joi.string().optional(),
     email: Joi.string().optional(),
     password: Joi.string().optional(),
-    role: Joi.string().valid('MANAGER','CASHIER').uppercase().optional(),
-    profile_picture: Joi.allow().optional(),
+    role: Joi.string().valid('ADMIN','CASHIER').uppercase().optional(),
     user: Joi.optional()
 })
 
