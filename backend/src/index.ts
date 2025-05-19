@@ -7,8 +7,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 
-import MovieRoute from './router/movieRoute'
-import UserRoute from './router/userRoute'
+import MovieRoute from './routers/movieRoute'
+import UserRoute from './routers/userRoute'
 // import OrderRoute from './routers/orderRoute'
 // import ReportRoute from './routers/reportRoute'
 // import VideoRoute from './routers/videoRoute'

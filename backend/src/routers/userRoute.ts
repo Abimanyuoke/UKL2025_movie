@@ -1,25 +1,18 @@
 import express from "express"
-import { getAllUsers, createUser, updateUser, deleteUser, authentication, getUserById } from "../controller/userController"
-import { verifyAddUser, verifyEditUser, verifyAuthentication } from "../middleware/userValidation"
-import { verifyToken, verifyRole } from "../middleware/authorization"
+import { getAllUsers, createUser, updateUser, deleteUser, changePicture, authentication, getUserById } from "../controllers/userController"
+import { verifyAddUser, verifyEditUser, verifyAuthentication } from "../middlewares/userValidation"
+import { verifyToken, verifyRole } from "../middlewares/authorization"
 
 const app = express()
 app.use(express.json())
 
-// app.get(`/`, [verifyToken, verifyRole(["ADMIN"])], getAllUsers)
-// app.get(`/profile`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], getUserById)
-// app.post(`/`, [verifyToken, verifyRole(["ADMIN"]), verifyAddUser], createUser)
-// app.put(`/:id`, [verifyToken, verifyRole(["CASHIER", "ADMIN"]), verifyEditUser], updateUser)
-// app.put(`/profile/:id`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], changePicture)
-// app.delete(`/:id`, [verifyToken, verifyRole(["ADMIN"])], deleteUser)
-// app.post(`/login`, [verifyAuthentication], authentication)
-
-app.get(`/`, [verifyToken, verifyRole(["ADMIN"])], getAllUsers)
-app.get(`/profile`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], getUserById)
-app.post(`/`, [verifyToken, verifyRole(["ADMIN"]), verifyAddUser], createUser)
-app.put(`/:id`, [verifyToken, verifyRole(["CASHIER", "ADMIN"]), verifyEditUser], updateUser)
-app.put(`/profile/:id`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], changePicture)
-app.delete(`/:id`, [verifyToken, verifyRole(["ADMIN"])], deleteUser)
+app.get(`/`, [verifyToken, verifyRole(["MANAGER"])], getAllUsers)
+app.get(`/profile`, [verifyToken, verifyRole(["CASHIER", "MANAGER"])], getUserById)
+app.post(`/`, verifyAddUser, createUser)
+// app.post(`/`, [verifyToken, verifyRole(["MANAGER"]), verifyAddUser], createUser)
+app.put(`/:id`, [verifyToken, verifyRole(["CASHIER", "MANAGER"]), verifyEditUser], updateUser)
+app.put(`/profile/:id`, [verifyToken, verifyRole(["CASHIER", "MANAGER"])], changePicture)
+app.delete(`/:id`, [verifyToken, verifyRole(["MANAGER"])], deleteUser)
 app.post(`/login`, [verifyAuthentication], authentication)
 
 export default app
