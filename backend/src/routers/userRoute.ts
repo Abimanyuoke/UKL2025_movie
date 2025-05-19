@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllUsers, createUser, updateUser, deleteUser, changePicture, authentication, getUserById } from "../controllers/userController"
+import { getAllUsers, createUser, updateUser, deleteUser,  authentication, getUserById } from "../controllers/userController"
 import { verifyAddUser, verifyEditUser, verifyAuthentication } from "../middlewares/userValidation"
 import { verifyToken, verifyRole } from "../middlewares/authorization"
 
@@ -11,7 +11,6 @@ app.get(`/profile`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], getUserById
 app.post(`/`, verifyAddUser, createUser)
 // app.post(`/`, [verifyToken, verifyRole(["ADMIN"]), verifyAddUser], createUser)
 app.put(`/:id`, [verifyToken, verifyRole(["CASHIER", "ADMIN"]), verifyEditUser], updateUser)
-app.put(`/profile/:id`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], changePicture)
 app.delete(`/:id`, [verifyToken, verifyRole(["ADMIN"])], deleteUser)
 app.post(`/login`, [verifyAuthentication], authentication)
 
