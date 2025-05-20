@@ -17,6 +17,7 @@ datasource db {
 enum Role {
   ADMIN
   CASHIER
+  USER
 }
 
 model User {
@@ -25,7 +26,7 @@ model User {
   name            String   @default("")
   email           String   @unique @default("")
   password        String   @default("")
-  role            Role     @default(CASHIER)
+  role            Role     @default(USER)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   transaksi       Transaksi[]
@@ -41,6 +42,7 @@ model Movie {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   transaksi       Transaksi[]
+  transaksiList   TransaksiList[]
 }
 
 model Transaksi {
@@ -48,10 +50,20 @@ model Transaksi {
   userId Int?
   movieId Int?
   qty Int @default(0)
-  borrow_date DateTime @db.Date
-  return_date DateTime @db.Date
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   movie Movie? @relation(fields: [movieId], references: [id])
   user User?   @relation(fields: [userId], references: [id])
+  transaksiList TransaksiList[]
+}
+model TransaksiList {
+  id              Int      @id @default(autoincrement())
+  uuid            String   @unique @default("")
+  transaksiId     Int?
+  movieId         Int?
+  qty             Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  movie Movie?     @relation(fields: [movieId], references: [id])
+  Transaksi Transaksi[]
 }

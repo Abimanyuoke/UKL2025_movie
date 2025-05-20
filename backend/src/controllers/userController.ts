@@ -71,11 +71,8 @@ export const createUser = async (request: Request, response: Response) => {
     try {
         /** get requested data (data has been sent from request) */
         const { name, email, password, role } = request.body
+        console.log('Incoming body:', request.body)
         const uuid = uuidv4()
-
-        /** variable filename use to define of uploaded file name */
-        let filename = ""
-        if (request.file) filename = request.file.filename /** get file name of uploaded file */
 
         /** process to save new user */
         const newUser = await prisma.user.create({
@@ -96,54 +93,6 @@ export const createUser = async (request: Request, response: Response) => {
             .status(400)
     }
 }
-
-// export const createUser = async (request: Request, response: Response) => {
-//     try {
-//         const { name, email, password, role } = request.body
-//         const uuid = uuid()
-
-//         let filename = ""
-//         if (request.file) filename = request.file.filename
-
-//         const newUser = await prisma.user.create({
-//             data: {
-//                 uuid,
-//                 name,
-//                 email,
-//                 password: md5(password),
-//                 role,
-//             }
-//         })
-
-//         const tokenPayload = {
-//             id: newUser.id,
-//             uuid: newUser.uuid,
-//             name: newUser.name,
-//             role: newUser.role,
-//         }
-
-//         const token = .sign(tokenPayload, process.env.JWT_SECRET || "default_secret", {
-//             expiresIn: "7d"
-//         })
-
-//         return response.status(200).json({
-//             status: true,
-//             message: `User created successfully`,
-//             token,
-//             data: {
-//                 id: newUser.id,
-//                 name: newUser.name,
-//                 role: newUser.role,
-//             }
-//         })
-
-//     } catch (error) {
-//         return response.status(400).json({
-//             status: false,
-//             message: `There is an error. ${error}`
-//         })
-//     }
-// }
 
 export const updateUser = async (request: Request, response: Response) => {
     try {
@@ -260,3 +209,18 @@ export const authentication = async (request: Request, response: Response) => {
             .status(400)
     }
 }
+
+export const logout = async (request: Request, response: Response) => {
+    try {
+        // Kalau pakai blacklist, simpan token di sini ke database / Redis (tidak dilakukan dalam contoh ini)
+        return response.status(200).json({
+            status: true,
+            message: "Logout successful. Login kembali untuk mendapatkan token baru.",
+        });
+    } catch (error) {
+        return response.status(400).json({
+            status: false,
+            message: `There is an error. ${error}`
+        });
+    }
+};

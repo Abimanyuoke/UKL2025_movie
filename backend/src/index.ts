@@ -9,10 +9,6 @@ dotenv.config()
 
 import MovieRoute from './routers/movieRoute'
 import UserRoute from './routers/userRoute'
-// import OrderRoute from './routers/orderRoute'
-// import ReportRoute from './routers/reportRoute'
-// import VideoRoute from './routers/videoRoute'
-
 import { PORT } from './global'
 
 const app = express()
@@ -49,10 +45,8 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
-app.use(`/movie`, MovieRoute)
-app.use(`/user`, UserRoute)
-// app.use(`/order`, OrderRoute)
-// app.use(`/report`, ReportRoute)
+app.use(`/`, MovieRoute)
+app.use(`/`, UserRoute)
 
 // Set public folder as static
 app.use(express.static(path.join(__dirname, '..', 'public')));

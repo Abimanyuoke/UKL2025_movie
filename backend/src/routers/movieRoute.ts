@@ -7,9 +7,9 @@ import uploadFile from "../middlewares/movieUpload"
 const app = express()
 app.use(express.json())
 
-app.get(`/`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], getAllMovies)
-app.post(`/`, [ uploadFile.single("picture"), verifyAddMovie], createMovie)
-app.put(`/:id`, [verifyToken, verifyRole(["ADMIN"]), uploadFile.single("picture"), verifyEditMovie], updateMovie)
-app.delete(`/:id`, [verifyToken, verifyRole(["ADMIN"])], deleteMovie)
+app.get(`/admin/getmovie`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], getAllMovies)
+app.post(`/admin/insertmovie`, [ uploadFile.single("picture"), verifyAddMovie], createMovie)
+app.put(`/admin/updatemovie/:id`, [verifyToken, verifyRole(["ADMIN"]), uploadFile.single("picture"), verifyEditMovie], updateMovie)
+app.delete(`/admin/hapusmovie/:id`, [verifyToken, verifyRole(["ADMIN"])], deleteMovie)
 
 export default app

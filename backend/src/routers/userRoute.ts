@@ -1,18 +1,20 @@
 import express from "express"
-import { getAllUsers, createUser, updateUser, deleteUser,  authentication, getUserById } from "../controllers/userController"
+import { getAllUsers, createUser, updateUser, deleteUser,  authentication, getUserById, logout } from "../controllers/userController"
 import { verifyAddUser, verifyEditUser, verifyAuthentication } from "../middlewares/userValidation"
 import { verifyToken, verifyRole } from "../middlewares/authorization"
 
 const app = express()
 app.use(express.json())
 
-app.get(`/`, [verifyToken, verifyRole(["ADMIN"])], getAllUsers)
-app.get(`/profile`, [verifyToken, verifyRole(["CASHIER", "ADMIN"])], getUserById)
-app.post(`/`, verifyAddUser, createUser)
+app.get(`/getuser`, [verifyToken, verifyRole(["ADMIN"])], getAllUsers)
+app.get(`/profile`, [verifyToken, verifyRole(["ADMIN"])], getUserById)
+// app.post(`/auth/register`,[verifyToken, verifyRole(["ADMIN"]) ,verifyAddUser], createUser)
+app.post(`/auth/register`, [verifyAddUser], createUser)
 // app.post(`/`, [verifyToken, verifyRole(["ADMIN"]), verifyAddUser], createUser)
-app.put(`/:id`, [verifyToken, verifyRole(["CASHIER", "ADMIN"]), verifyEditUser], updateUser)
+app.put(`/:id`, [verifyToken, verifyRole(["ADMIN"]), verifyEditUser], updateUser)
 app.delete(`/:id`, [verifyToken, verifyRole(["ADMIN"])], deleteUser)
-app.post(`/login`, [verifyAuthentication], authentication)
+app.post(`/auth/login`, [verifyAuthentication], authentication)
+app.post(`/auth/logout`, verifyToken, logout)
 
 export default app
 
